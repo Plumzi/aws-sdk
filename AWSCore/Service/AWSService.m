@@ -14,12 +14,13 @@
 //
 
 #import "AWSService.h"
-
-#import <UIKit/UIKit.h>
 #import "AWSSynchronizedMutableDictionary.h"
 #import "AWSURLResponseSerialization.h"
 #import "AWSLogging.h"
 #import "AWSCategory.h"
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#endif
 
 NSString *const AWSiOSSDKVersion = @"2.3.3";
 static NSString *const AWSServiceConfigurationUnknown = @"Unknown";
@@ -186,11 +187,19 @@ static NSString *const AWSServiceConfigurationUnknown = @"Unknown";
     static NSString *_userAgent = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+#if TARGET_OS_IPHONE
         NSString *systemName = [[[UIDevice currentDevice] systemName] stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+#else
+        NSString *systemName = nil;
+#endif
         if (!systemName) {
             systemName = AWSServiceConfigurationUnknown;
         }
+#if TARGET_OS_IPHONE
         NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+#else
+        NSString *systemVersion = nil;
+#endif
         if (!systemVersion) {
             systemVersion = AWSServiceConfigurationUnknown;
         }

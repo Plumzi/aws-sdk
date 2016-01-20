@@ -13,8 +13,10 @@
 // permissions and limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
 #import <AWSCore/AWSCore.h>
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -204,6 +206,7 @@ typedef void (^AWSS3TransferUtilityDownloadProgressBlock) (AWSS3TransferUtilityD
  */
 + (void)removeS3TransferUtilityForKey:(NSString *)key;
 
+#if TARGET_OS_IPHONE
 /**
  Tells `AWSS3TransferUtility` that events related to a URL session are waiting to be processed. This method needs to be called in the `- application:handleEventsForBackgroundURLSession:completionHandler:` applicatoin delegate for `AWSS3TransferUtility` to work.
 
@@ -214,6 +217,7 @@ typedef void (^AWSS3TransferUtilityDownloadProgressBlock) (AWSS3TransferUtilityD
 + (void)interceptApplication:(UIApplication *)application
 handleEventsForBackgroundURLSession:(NSString *)identifier
            completionHandler:(void (^)())completionHandler;
+#endif
 
 /**
  Saves the `NSData` to a temporary directory and uploads it to the specified Amazon S3 bucket.
